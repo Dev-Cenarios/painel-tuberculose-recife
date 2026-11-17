@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.lock.txt
+      # As versões exatas que vão para a imagem — o cenarios-core sai de vendor/.
+      - name: Instala o lock
+        run: pip install -r requirements.lock.txt ruff
+      - name: Ruff (só as regras que pegam bug)
+        run: ruff check --select F app.py src tests
+      - name: Testes
+        run: python -m pytest -q -rs
+
+  imagem:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # A imagem leva os dados dentro (`COPY data/parquet/` e `data/geo/`), e
+      # eles não estão no repositório. Pastas vazias bastam para provar que o
+      # lock instala e que código e componentes entram.
+      - name: Pastas vazias no lugar dos dados
+        run: mkdir -p data/parquet data/geo
+      - name: Constrói a imagem
+        run: docker build -t painel:ci .
+      # `--entrypoint`: a imagem tem o Streamlit como ENTRYPOINT; sem isto o
+      # comando vira argumento do servidor, que sobe e fica no ar até o runner
+      # cancelar o job.
+      - name: A imagem carrega o cenarios-core com mapa e gráficos
+        run: |
+          docker run --rm --entrypoint python painel:ci -c "import cenarios_core.mapa_componente as m, cenarios_core.grafico_componente as g; assert (m.DIRETORIO / 'deck.min.js').is_file() and (g.DIRETORIO / 'echarts.min.js').is_file()"

@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Se usar este painel ou o seu código, cite-o como abaixo."
+type: software
+title: "Painel de Monitoramento da Tuberculose — Recife"
+abstract: "Painel de vigilância da tuberculose no Recife, por bairro e Distrito Sanitário, com os indicadores do Boletim Epidemiológico de Tuberculose do Ministério da Saúde."
+authors:
+  - given-names: Matheus
+    family-names: Cardoso
+    affiliation: "Projeto Cenários+, Universidade de Brasília"
+repository-code: "https://github.com/Dev-Cenarios/painel-tuberculose-recife"
+url: "https://painel.cenarios.unb.br/cenarios/tbrecife/"
+license: MIT
+keywords:
+  - epidemiologia
+  - vigilância epidemiológica
+  - tuberculose
+  - Recife
+  - SINAN

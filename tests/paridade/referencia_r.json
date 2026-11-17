@@ -1,0 +1,103 @@
+{
+  "_sobre": {
+    "origem": "https://cenariostb.unb.br/Shiny_Monitoramento/shiny/core/apps/TUBERCULOSE/",
+    "lido_em": "2026-08-28",
+    "cabecalho_do_painel": "Dados até 31/12/2023 · Processado em 04/08/2026",
+    "ano": 2023,
+    "geografia": "Recife",
+    "metodo": "Valores lidos da tela e das especificações ECharts do painel no ar. Congelados ANTES de escrever qualquer fórmula, para que a comparação seja contra o que eles publicam e não contra o que nós lembramos que eles publicavam.",
+    "aviso": "Paridade mede CONCORDÂNCIA, não correção. Onde nós divergimos de propósito, a justificativa fica em excecoes.md e a fonte que decide é o Boletim Epidemiológico do MS, não este arquivo."
+  },
+
+  "kpis": {
+    "incid": {"valor": 156.06, "variacao": 5.20},
+    "casos": {"valor": 2485, "variacao": 79},
+    "mortalidade": {"valor": 8.9, "variacao": 2.58},
+    "interrupcao_trat_pct": {
+      "valor": 22.5,
+      "variacao": 4.00,
+      "numerador_exibido": 1118,
+      "denominador_exibido": 4970,
+      "_nota": "O denominador exibido é o dobro do real: sinan_landing soma a linha TOTAL junto com M e F. Ver excecoes.md §1."
+    },
+    "hiv_pos_pct": {
+      "valor": 17.4,
+      "variacao": -0.63,
+      "denominador_exibido": 4036,
+      "_nota": "4036 = 4970 - 890 (não realizado) - 44 (em andamento): positividade entre testados, e não coinfecção entre casos. Definição diferente da do painel nacional — decisão pendente."
+    },
+    "cura": {"valor": 1248, "variacao": -113}
+  },
+
+  "ranking_bairros_casos": {
+    "_nota": "Top 15 por casos. Confere com o dataset `incidence` em nivel=BAIRRO, bairro a bairro, sem diferença — foi assim que se descobriu que o painel deles exibe o agregado, e não o microdado.",
+    "CURADO": 157,
+    "COHAB": 126,
+    "BOA VIAGEM": 112,
+    "TORROES": 94,
+    "SANCHO": 87,
+    "AGUA FRIA": 81,
+    "SANTO AMARO": 80,
+    "IBURA": 77,
+    "VARZEA": 75,
+    "IPUTINGA": 71,
+    "IMBIRIBEIRA": 66,
+    "DOIS UNIDOS": 62,
+    "NOVA DESCOBERTA": 61,
+    "AFOGADOS": 56,
+    "VASCO DA GAMA": 52
+  },
+
+  "composicao": {
+    "_nota": "Percentual e contagem como o painel exibe. As contagens estão dobradas pelo mesmo motivo dos denominadores dos KPIs; os percentuais não sentem, porque numerador e denominador dobram juntos.",
+    "HIV": {
+      "base_exibida": 4970,
+      "categorias": {
+        "Negativo": {"pct": 67.08, "n": 3334},
+        "Não realizado": {"pct": 17.91, "n": 890},
+        "Positivo": {"pct": 14.12, "n": 702},
+        "Em andamento": {"pct": 0.89, "n": 44}
+      }
+    },
+    "SITUA_ENCE": {
+      "base_exibida": 4920,
+      "categorias": {
+        "Favorável": {"pct": 50.73, "n": 2496},
+        "Desfavorável": {"pct": 32.68, "n": 1608},
+        "Não avaliado": {"pct": 16.59, "n": 816}
+      }
+    },
+    "FORMA": {
+      "base_exibida": 4970,
+      "categorias": {
+        "Pulmonar": {"pct": 83.82, "n": 4166},
+        "Extrapulmonar": {"pct": 11.79, "n": 586},
+        "Pulmonar + Extrapulmonar": {"pct": 4.39, "n": 218}
+      }
+    }
+  },
+
+  "epicurva": {
+    "_nota": "Taxa mensal por 100 mil hab., não contagem. Os doze meses somam 155,9, que fecha com a incidência anual de 156,06. O gráfico é um canal endêmico: ano selecionado, três anos anteriores e faixa interquartil Q1-Q3.",
+    "unidade": "por 100 mil hab.",
+    "2023": [17.52114, 10.67596, 15.51155, 11.42956, 12.05756, 11.61796,
+             13.87875, 12.87396, 12.74836, 12.74836, 12.37156, 12.62276]
+  },
+
+  "estrutura": {
+    "_nota": "O que a tela oferece, para conferir cobertura funcional.",
+    "metricas_do_mapa": ["Incidência por 100 mil hab.", "Casos novos", "Curas"],
+    "abas": ["Evolução temporal", "Ranking de bairros", "Pirâmide etária"],
+    "sub_abas_evolucao": ["Meses do ano", "Todos os anos", "Epicurva por mês"],
+    "variaveis_de_composicao": [
+      "AGRAVALCOO", "AGRAVDROGA", "AGRAVTABAC", "CS_RACA", "FORMA",
+      "HIV", "POP_RUA", "POP_SAUDE", "SITUA_ENCE", "TRATAMENTO"
+    ],
+    "grafico_historico": {
+      "primeiro": "2010-01",
+      "ultimo": "2019-12",
+      "pontos": 120,
+      "_nota": "Para em 2019 com dado até 2023. Janela fixa ou truncamento? Perguntado à equipe parceira, sem resposta até 28/ago."
+    }
+  }
+}

@@ -1,0 +1,40 @@
+# Para quem hospeda o painel. Duas coisas para decidir, as duas por variável
+# de ambiente — nada para editar aqui dentro:
+#
+#   PORTA          porta exposta no host          (padrão 8501)
+#   BASE_URL_PATH  subcaminho da URL, sem barras  (padrão vazio = raiz)
+#
+# Subir:
+#     docker compose up -d
+#
+# Numa porta e subcaminho próprios:
+#     PORTA=8080 BASE_URL_PATH=cenarios/tbrecife docker compose up -d
+#     -> http://127.0.0.1:8080/cenarios/tbrecife/  (só da própria máquina)
+#
+# A porta escuta só em 127.0.0.1: o painel fica atrás de um nginx na mesma
+# máquina. Para abrir direto de outro computador, use `docker run -p` (README).
+#
+# Os dados já estão dentro da imagem. Não há volume a montar.
+services:
+  recifetb:
+    image: recifetb:latest
+    container_name: recifetb
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${PORTA:-8501}:8501"
+    environment:
+      - BASE_URL_PATH=${BASE_URL_PATH:-}
+    deploy:
+      resources:
+        limits:
+          # Sobra: medido, o painel inteiro cabe em bem menos. O teto existe
+          # para uma sessão com vazamento não derrubar o host.
+          cpus: "2.0"
+          memory: 1.5G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536

@@ -1,0 +1,47 @@
+# O que NÃO entra na imagem.
+#
+# Este painel é entregue como container para outra equipe hospedar, então os
+# dados **entram** na imagem — é `docker run` e pronto, sem volume para montar
+# nem caminho para acertar. São 7 MB, e extração nova vira imagem nova com
+# outra tag.
+#
+# Com uma exceção absoluta, e é ela que este arquivo existe para proteger.
+
+# --- Dado nominal: NUNCA -------------------------------------------------
+# `data/origem/` guarda o CSV cru do SINAN: nome, nome da mãe, nascimento,
+# cartão do SUS, telefone, endereço e coordenadas do domicílio de 29.948
+# pacientes com tuberculose. A conversão em `scripts/preparar_microdado.py`
+# descarta 27 identificadores antes de gravar o parquet, e só o parquet viaja.
+#
+# `tests/test_imagem.py` abre a imagem construída e falha se encontrar um
+# `.csv` ou a pasta `origem/` dentro dela.
+data/origem/
+**/*.csv
+*.csv
+
+# --- Derivados que a imagem não usa ---------------------------------------
+data/_preview/
+data/geo/*.gz
+# Vieram na extração, nada os lê: 54 MB de zips de população do IBGE e os
+# centroides de município do painel nacional. Sem eles, os dados da imagem
+# caem de 61 MB para 7 MB.
+data/parquet/dashboard/popsvs/
+data/parquet/dashboard/dim_geo/
+
+# --- Ambiente local, cache e histórico -----------------------------------
+.venv/
+.git/
+.gitignore
+__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# --- Nada disto roda em produção ----------------------------------------
+tests/
+scripts/
+docs/
+*.md
+.env
+.env.exemplo
